@@ -59,4 +59,9 @@ group :development do
   gem "html2haml"
 end
 
+group :test do
+  gem "capybara"
+  gem "selenium-webdriver"
+end
+
 gem "dry-initializer", "~> 3.2"
