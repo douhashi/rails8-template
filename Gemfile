@@ -37,6 +37,8 @@ gem "thruster", require: false
 gem "haml-rails"
 gem "vite_rails"
 gem "foreman"
+gem "view_component"
+gem "view_component-contrib"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -56,3 +58,5 @@ group :development do
   gem "web-console"
   gem "html2haml"
 end
+
+gem "dry-initializer", "~> 3.2"
