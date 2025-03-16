@@ -8,6 +8,8 @@
     %meta{:content => "yes", :name => "mobile-web-app-capable"}/
     = csrf_meta_tags
     = csp_meta_tag
+    = vite_client_tag
+    = vite_javascript_tag "entrypoints/application"
     = yield :head
     %link{:href => "/icon.png", :rel => "icon", :type => "image/png"}/
     %link{:href => "/icon.svg", :rel => "icon", :type => "image/svg+xml"}/
