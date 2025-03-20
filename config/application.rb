@@ -41,6 +41,10 @@ module App
     # Don't generate system test files.
     config.generators.system_tests = nil
 
+    # Lookbook
+    config.lookbook_enabled = true if Rails.env.development?
+    require "lookbook" if Rails.env.development?
+
     config.generators do |g|
       g.view_specs false
       g.helper_specs false

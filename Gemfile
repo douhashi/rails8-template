@@ -53,6 +53,8 @@ group :development, :test do
   gem "rspec-rails"
 end
 
+gem "lookbook", require: false
+
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"

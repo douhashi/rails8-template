@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [
     RubyPlugin(),
-    FullReload(['config/routes.rb', 'app/views/**/*'], { delay: 200 }),
+    FullReload(['config/routes.rb', 'app/views/**/*', 'app/frontend/components/**/*.haml'], { delay: 200 }),
     tailwindcss()
-  ]
+  ],
 })
