@@ -42,8 +42,9 @@ module App
     config.generators.system_tests = nil
 
     # Lookbook
+    config.lookbook_enabled = false
     config.lookbook_enabled = true if Rails.env.development?
-    require "lookbook" if Rails.env.development?
+    require "lookbook" if config.lookbook_enabled
 
     config.generators do |g|
       g.view_specs false
