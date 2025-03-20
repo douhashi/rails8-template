@@ -18,7 +18,8 @@
   "containerEnv": {
     "KAMAL_REGISTRY_PASSWORD": "$KAMAL_REGISTRY_PASSWORD",
     "DB_HOST": "postgres",
-    "VITE_RUBY_HOST": "0.0.0.0"
+    "VITE_RUBY_HOST": "0.0.0.0",
+    "SELENIUM_DRIVER_URL": "http://chrome:4444/"
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.

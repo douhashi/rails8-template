@@ -12,4 +12,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "samples#show"
+
+  # lookbook
+  if Rails.application.config.lookbook_enabled
+    mount Lookbook::Engine, at: "/dev/lookbook"
+  end
 end

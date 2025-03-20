@@ -30,6 +30,16 @@ services:
     environment:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
+  chrome:
+    image: selenium/standalone-chrome
+    healthcheck:
+      test: "curl -f http://localhost:4444/status || exit 1"
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    logging:
+      driver: none
+
 
 volumes:
   postgres-data:
