@@ -17,7 +17,7 @@ class ViewComponentGenerator < Rails::Generators::NamedBase
   end
 
   def create_template_file
-    template "component.html.haml", File.join("app/frontend/components", class_path, file_name, "component.html.haml")
+    template "component.html.erb", File.join("app/frontend/components", class_path, file_name, "component.html.erb")
   end
 
   def create_test_file
