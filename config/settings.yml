@@ -1,11 +1,2 @@
-default: &default
-  app_name: "アプリケーション名"
-
-development:
-  <<: *default
-
-test:
-  <<: *default
-
-production:
-  <<: *default
+app:
+  name: "アプリケーション名"
