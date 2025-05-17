@@ -59,5 +59,8 @@ jobs:
       - name: Install dependencies
         run: bundle install --jobs 4 --retry 3
 
+      - name: Setup queue database
+        run: bin/rails db:create:queue db:migrate:queue
+
       - name: Run tests
         run: bin/rails db:schema:load && bin/rails spec
