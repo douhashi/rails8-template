@@ -17,6 +17,7 @@ rails8-template プロジェクトの開発ガイドラインです。以下を�
 - タスク内で `#<番号>` が指定された場合は、対応する GitHub Issue を必ず確認してください
 - 実装の前に計画で Issue の説明を更新してください
 - Pull Request の説明には `fixes #<番号>` を含めてください
+- Pull Request の説明には、行った作業の内容を詳細に記載してください
 
 ## GitHub Issueワークフロー
 1. `gh issue view <番号>` で要件確認  
