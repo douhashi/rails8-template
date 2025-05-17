@@ -33,6 +33,8 @@ rails8-template プロジェクトの開発ガイドラインです。以下を�
    - 同じことを連続で行うのではなく、問題の解決策を提案
 - Pull Request の説明には `fixes #<番号>` を含めてください
 - Pull Request の説明には、行った作業の内容を詳細に記載してください
+- モデル/コントローラ/view_component/job/migrateの作成はgeneratorを使う
+- GithubのIssueの説明にURLが提示されている場合は、まず fetch mcp ツールを試し、取得できない場合は curl を使用して情報を取得する
 
 ## 作業プロセス
 
