@@ -1,0 +1,99 @@
+## はじめに
+rails8-template プロジェクトの開発ガイドラインです。以下を遵守して開発を進めてください。
+
+## 開発モード
+| モード       | 役割                   | 切替タイミング                        |
+|-------------|------------------------|-------------------------------------|
+| PM          | 要件定義・計画作成     | Issue確認時                         |
+| Architect   | 設計・技術選定         | 実装前または技術的判断が必要な時     |
+| Code        | 実装・テスト           | コーディングとテスト実行時         |
+| PMO         | 品質管理・確認         | 実装完了後のレビュー・品質確認時   |
+
+## 基本ルール
+- 要件／指示に従い、進捗や問題は適宜報告する
+- エラー発生時は自律的に原因を分析し、解決案を提示
+- 既存コードスタイルを尊重し、変更理由を明示
+- テストが2回連続失敗した場合は状況整理の上、報告
+- タスク内で `#<番号>` が指定された場合は、対応する GitHub Issue を必ず確認してください
+- 実装の前に計画で Issue の説明を更新してください
+- Pull Request の説明には `fixes #<番号>` を含めてください
+- Pull Request の説明には、行った作業の内容を詳細に記載してください
+
+## GitHub Issueワークフロー
+1. `gh issue view <番号>` で要件確認  
+3. 設計完了後、`tmp/plan.md` に計画を記載し `gh issue edit <番号> --body-file tmp/plan.md`  
+4. 承認後、`gh issue edit <番号> --add-label "ready-for-development"`
+
+## ブランチ命名・作成
+- 命名:  
+  - feat/#<番号>-<機能>  
+  - fix/#<番号>-<修正>  
+  - docs/#<番号>-<ドキュメント>  
+  - style/#<番号>-<調整>  
+  - refactor/#<番号>-<対象>  
+  - test/#<番号>-<テスト>  
+  - chore/#<番号>-<作業>  
+- 作成:  
+  ```
+  git checkout -b <接頭辞>/#<番号>-<説明>
+  gh issue comment <番号> --body-file tmp/branch_created.md
+  ```
+
+## 実装〜PR作成
+1. コーディング & テスト  
+   ```
+   bundle exec rspec <テストファイル>
+   rubocop -a
+   ```
+2. コミット  
+   ```
+   git add .
+   git commit -m "<接頭辞>: コミットメッセージ"
+   ```
+3. プッシュ & PR  
+   ```
+   git push origin <ブランチ名>
+   gh pr create --title "<接頭辞>: タイトル" --body-file tmp/pr.md --base main
+   ```  
+   `fixes #<番号>` を PR 本文に含める  
+
+## 技術スタック
+- 言語: Ruby 3.x, フレームワーク: Rails 8, DB: SQLite3  
+- コンポーネント: ViewComponent, Dry-initializer  
+- フロント: Vite.js, Tailwind CSS 4, Stimulus.js, Turbo Rails (Hotwire)  
+- 開発支援: Lookbook, Foreman, Brakeman, RuboCop Rails Omakase  
+- テスト: RSpec, Capybara, Factory Bot  
+- CI/CD: GitHub Actions
+
+## アプリケーション起動
+- 起動: `bin/server` → http://localhost:5100  
+- サーバー起動済みなら継続
+
+## セキュリティ
+- `.env`, `credentials.yml.enc`, `.pem` 等は読み書き禁止  
+- シークレットは環境変数で管理  
+- ユーザー入力は必ず検証
+
+## コーディングガイドライン
+### Ruby/Rails
+- Fat Model, Skinny Controller  
+- 複雑ロジックはサービスオブジェクトに抽出  
+### ViewComponent
+- `bin/rails g view_component コンポーネント名 [属性]` を利用  
+- `docs/component-guidelines.md` を参照  
+### JavaScript (Stimulus)
+- 単一責務、データ属性活用、Turbo連携  
+### CSS (Tailwind)
+- ユーティリティクラス、デザイントークン、レスポンシブ対応  
+### テスト
+- ユニットテスト・システムテストでユーザージャーニー・エッジケースを網羅
+
+## コミットメッセージ
+- プレフィックス: feat, fix, docs, style, refactor, test, chore  
+- 日本語可、1コミット1論理単位  
+- コミット前に必ず `rubocop -a` を実行しスタイルを整える
+
+## ベストプラクティス
+- 再利用可能なコンポーネント設計  
+- パフォーマンスとアクセシビリティを考慮  
+- Core Web Vitals を意識
