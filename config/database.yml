@@ -6,15 +6,28 @@ default: &default
   timeout: 5000
 
 development:
-  <<: *default
-  database: db/development.sqlite3
+  primary:
+    <<: *default
+    database: db/development.sqlite3
+  queue:
+    <<: *default
+    database: db/development_queue.sqlite3
+    migrations_paths: db/queue_migrate
 
 test:
-  <<: *default
-  database: db/test.sqlite3
+  primary:
+    <<: *default
+    database: db/test.sqlite3
+  queue:
+    <<: *default
+    database: db/test_queue.sqlite3
+    migrations_paths: db/queue_migrate
 
 production:
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  url: <%= ENV["DATABASE_URL"] %>
+  primary:
+    <<: *default
+    database: db/production.sqlite3
+  queue:
+    <<: *default
+    database: db/production_queue.sqlite3
+    migrations_paths: db/queue_migrate
