@@ -61,7 +61,8 @@ AIはこれらのステップを自動的に判断して進め、1回のリク�
 要件はGithubのIssueとして与えられます。プロジェクトの要件管理と進捗追跡にはGitHub Issueを使用します：
 
 1. `gh issue view <番号>` で要件確認  
-3. 設計完了後、`tmp/plan.md` に実行計画を記載し `gh issue edit <番号> --body-file tmp/plan.md`  
+3. 設計完了後、`tmp/plan.md` に実行計画を記載し `gh issue edit <番号> --body-file tmp/plan.md`
+   - 実装開始前にIssueの説明を更新し、計画を必ず反映する
 4. 承認後、`gh issue edit <番号> --add-label "ready-for-development"`
 
 ## ブランチ命名・作成
