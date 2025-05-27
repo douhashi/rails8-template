@@ -73,3 +73,5 @@ gem "dry-initializer", "~> 3.2"
 
 
 gem "factory_bot_rails", "~> 6.4"
+
+gem "pundit", "~> 2.5"
