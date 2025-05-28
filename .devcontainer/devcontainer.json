@@ -25,12 +25,18 @@
   "forwardPorts": [5100, 3036],
 
   // Configure tool-specific properties.
-  // "customizations": {},
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "saoudrizwan.claude-dev"
+      ]
+    }
+  },
 
   // Uncomment to connect as root instead. More info: https://containers.dev/implementors/json_reference/#remoteUser.
   // "remoteUser": "root",
 
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "bin/setup --skip-server"
+  "postCreateCommand": "/bin/bash .devcontainer/post-create.sh"
 }

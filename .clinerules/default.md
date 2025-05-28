@@ -12,7 +12,7 @@
  PM                              │ 要件定義・計画作成              │ 新規機能の検討時、要件の明確化が必要な時
  Architect                       │ 設計・技術選定                  │ 実装前の設計が必要な時、技術的判断が必要な時
  Code                            │ 実装・テスト                    │ 具体的なコード作成やバグ修正時
- PMO                             │ 品質管理・確認                  │ 作業完了時や品質チェックが必要な時
+ QA                              │ 品質管理・確認                  │ 作業完了時や品質チェックが必要な時
 
 あなたは作業の内容や流れに応じて最適なモードを自動的に選択し、目的の達成に向けて最大効率で作業を進めてください。
 
@@ -31,6 +31,11 @@
 • 連続で修正に失敗した場合:
   • 2回以上連続でテストを失敗した時は、現在の状況を整理して指示者に報告
   • 同じことを連続で行うのではなく、問題の解決策を提案
+• 学習記録の自律化:
+  • タスク完了時に新しい学びがあった場合、`.clinerules/lessons-learned.md` に自動記録
+  • 2回以上同じ問題に遭遇した場合は必ず記録
+  • 効率化や改善点を発見した場合も記録
+  • 記録の判断基準: 技術的な新発見、開発プロセスの改善点、時間短縮につながる方法、環境固有の問題と解決策
 
 
 ## セキュリティ
@@ -66,25 +71,74 @@
 3. 実装（Codeモード）
   • 設計に基づいたコーディング
   • ユニットテストの作成
-4. 品質確認（PMOモード）
+4. 品質確認（QAモード）
   • コードレビュー
   • 要件充足の確認
 
 
 AIはこれらのステップを自動的に判断して進め、1回のリクエストでも可能な限り完結した成果物を提供します。
 
+## プロジェクト管理ワークフロー
+
+### GitHub Projectsによるタスク管理
+
+プロジェクトの進捗管理にはGitHub Projectsを使用し、以下のワークフローに従います：
+
+#### レーン構成
+
+ レーン名        │ 説明                                    │ 移動条件
+─────────────────┼─────────────────────────────────────────┼──────────────────────────────────────
+ Backlog         │ 作業開始前、指示者が要件をチケットに    │ 新規Issue作成時の初期状態
+                 │ 書いた状態                              │
+─────────────────┼─────────────────────────────────────────┼──────────────────────────────────────
+ Ready           │ 作業の実行計画が済んだ状態              │ 実行計画をIssueの説明に更新完了時
+─────────────────┼─────────────────────────────────────────┼──────────────────────────────────────
+ In Progress     │ 実装作業に着手している状態              │ 実装作業開始直前（ブランチ作成時）
+─────────────────┼─────────────────────────────────────────┼──────────────────────────────────────
+ In Review       │ 作業が終わりPRが作成された状態          │ PR作成完了時
+
+#### レーン移動のルール
+
+1. **Backlog → Ready**
+   - 実行計画を作成し、Issueの説明欄を更新したタスクをReadyレーンに移動
+   - 実行計画テンプレートに従った詳細な計画が記載されていること
+
+2. **Ready → In Progress**
+   - 実装作業に着手する直前にIn Progressレーンに移動
+   - ブランチ作成と同時に実行
+
+3. **In Progress → In Review**
+   - 実装作業が完了し、PRが作成された時点でIn Reviewレーンに移動
+   - テスト実行とコード整形が完了していること
+
+#### プロジェクト管理コマンド
+
+```bash
+# プロジェクト一覧の確認
+GH_PAGER= gh project list --owner "@me"
+
+# 特定プロジェクトの詳細確認
+GH_PAGER= gh project view <プロジェクト番号> --owner "@me"
+
+# プロジェクト内のアイテム一覧確認
+GH_PAGER= gh project item-list <プロジェクト番号> --owner "@me" --format json
+
+# アイテムのステータス変更（レーン移動）
+GH_PAGER= gh project item-edit <アイテムID> --field-id <ステータスフィールドID> --single-select-option-id <オプションID>
+```
+
 ### GitHub Issueワークフロー
 
-要件はGithubのIssueとして与えられます。プロジェクトの要件管理と進捗追跡にはGitHub Issueを使用します：
+要件はGithubのIssueとして与えられます。プロジェクトの要件管理と進捗追跡にはGitHub IssueとGitHub Projectsを連携して使用します：
 
 1. 要件定義（PMモード）
   • GitHub Issueの内容を確認する
 
-  gh issue view <issue番号>
+  GH_PAGER= gh issue view <issue番号>
 
   • 要件が不明確な場合は、Issueにコメントで質問する
 
-  gh issue comment <issue番号> --body "要件について質問: ..."
+  GH_PAGER= gh issue comment <issue番号> --body "要件について質問: ..."
 
   • 要件の詳細化や優先度の確認を行う
 2. 設計（Architectモード）
@@ -164,7 +218,7 @@ PMモードとArchitectモードの成果物として、以下の構造に従っ
   • 実行計画テンプレートの「前提知識」と「要件概要」セクションを作成
   • 要件の詳細化と明確化
 
-  gh issue edit <issue番号> --body "# 実行計画: [タイトル]
+  GH_PAGER= gh issue edit <issue番号> --body "# 実行計画: [タイトル]
 
   ## 前提知識
   - [要件に関わる前提知識...]
@@ -179,7 +233,7 @@ PMモードとArchitectモードの成果物として、以下の構造に従っ
   • リスクと対策、タイムラインを設定
 
   ※ tmp以下に実行計画の内容を記載したファイルを作成しておく
-  gh issue edit <issue番号> --body-file tmp/implementation_plan.md
+  GH_PAGER= gh issue edit <issue番号> --body-file tmp/implementation_plan.md
 
   ファイルの内容例:
   # 実行計画: [タイトル]
@@ -201,13 +255,13 @@ PMモードとArchitectモードの成果物として、以下の構造に従っ
   • フィードバックを反映して計画を更新
 
   ※ tmp以下にレビューのフィードバックを記載したファイルを作成しておく
-  gh issue comment <issue番号> --body-file tmp/review_feedback.md
+  GH_PAGER= gh issue comment <issue番号> --body-file tmp/review_feedback.md
 
 5. 実装開始の承認
   • 実行計画が承認されたら、実装フェーズに移行
   • Issueにラベルを追加して状態を更新
 
-  gh issue edit <issue番号> --add-label "ready-for-development"
+  GH_PAGER= gh issue edit <issue番号> --add-label "ready-for-development"
 
 
 ### ブランチ命名規則
@@ -251,7 +305,7 @@ PMモードとArchitectモードの成果物として、以下の構造に従っ
   • 作成したブランチをIssueにコメントとして記録
 
   ※ tmp以下にブランチ作成の内容を記載したファイルを作成しておく
-  gh issue comment <issue番号> --body-file tmp/branch_created.md
+  GH_PAGER= gh issue comment <issue番号> --body-file tmp/branch_created.md
 
 3. 実装作業の開始
   • 作成したブランチ上で実装作業を進める
@@ -308,7 +362,7 @@ fixes #<issue番号>
 7. マージと後処理
   • PRがマージされたら、実装完了のコメントを追加（Issueのクローズは指示者が行うため、自分でクローズしないこと）
 
-  gh issue comment <issue番号> --body "PR #<PR番号> がマージされました。実装完了しました。"
+  GH_PAGER= gh issue comment <issue番号> --body "PR #<PR番号> がマージされました。実装完了しました。"
 
   • ローカルの後処理
 
@@ -321,26 +375,26 @@ fixes #<issue番号>
 
 #### Issue一覧の確認
 
-  gh issue list --state open
+  GH_PAGER= gh issue list --state open
 
 #### 特定のIssueの詳細確認
 
-  gh issue view <issue番号>
+  GH_PAGER= gh issue view <issue番号>
 
 #### Issueへのコメント追加
 
   ※ tmp以下にコメント内容を記載したファイルを作成しておく
-  gh issue comment <issue番号> --body-file tmp/comment.md
+  GH_PAGER= gh issue comment <issue番号> --body-file tmp/comment.md
 
 #### Issueの説明欄の編集
 
   ※ tmp以下に新しい説明内容を記載したファイルを作成しておく
-  gh issue edit <issue番号> --body-file tmp/issue_description.md
+  GH_PAGER= gh issue edit <issue番号> --body-file tmp/issue_description.md
 
 #### 既存の説明に追記する場合
 
   ※ tmp以下に追記内容を記載したファイルを作成しておく
-  gh issue edit <issue番号> --body-file tmp/issue_description.md --append
+  GH_PAGER= gh issue edit <issue番号> --body-file tmp/issue_description.md --append
 
   ## 追加内容
   追記したい内容をここに記述
@@ -348,11 +402,11 @@ fixes #<issue番号>
 
 #### Issueのクローズ
 
-  gh issue close <issue番号> --comment "クローズ理由"
+  GH_PAGER= gh issue close <issue番号> --comment "クローズ理由"
 
 #### 新しいIssueの作成
 
-  gh issue create --title "Issue タイトル" --body "Issue の説明"
+  GH_PAGER= gh issue create --title "Issue タイトル" --body "Issue の説明"
 
 ## 技術スタック
 
