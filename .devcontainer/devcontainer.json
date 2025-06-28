@@ -5,25 +5,27 @@
   "dockerComposeFile": "compose.yaml",
   "service": "rails-app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {},
     "ghcr.io/rails/devcontainer/features/activestorage": {},
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
-    "ghcr.io/devcontainers/features/node:1": {}
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/devcontainers/features/python:1": {},
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
   },
-
   "containerEnv": {
     "KAMAL_REGISTRY_USERNAME": "$KAMAL_REGISTRY_USERNAME",
     "KAMAL_REGISTRY_PASSWORD": "$KAMAL_REGISTRY_PASSWORD",
     "VITE_RUBY_HOST": "0.0.0.0",
-    "SELENIUM_URL": "http://selenium:4444/"
+    "SELENIUM_URL": "http://selenium:4444/",
+    "PYTHON": "/usr/bin/python3"
   },
-
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [5100, 3036],
-
+  "forwardPorts": [
+    5100,
+    3036
+  ],
   // Configure tool-specific properties.
   "customizations": {
     "vscode": {
@@ -32,11 +34,8 @@
       ]
     }
   },
-
   // Uncomment to connect as root instead. More info: https://containers.dev/implementors/json_reference/#remoteUser.
   // "remoteUser": "root",
-
-
   // Use 'postCreateCommand' to run commands after the container is created.
   "postCreateCommand": "/bin/bash .devcontainer/post-create.sh"
 }
