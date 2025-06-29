@@ -25,19 +25,7 @@
 
 ### 1. Issue確認と要件理解
 
-```bash
-# Issue一覧の確認
-GH_PAGER= gh issue list --state open
-
-# 特定のIssueの詳細確認
-GH_PAGER= gh issue view <issue番号>
-```
-
-要件が不明確な場合は、Issueにコメントで質問：
-
-```bash
-GH_PAGER= gh issue comment <issue番号> --body "要件について質問: ..."
-```
+GitHub CLIコマンドを使用してIssueを確認します。詳細なコマンドは[CLAUDE.md](../../CLAUDE.md#github-cli-gh-コマンドリファレンス)を参照してください。
 
 ### 2. 実行計画の作成
 
@@ -92,11 +80,7 @@ GH_PAGER= gh issue comment <issue番号> --body "要件について質問: ..."
 
 ### 3. 実行計画の更新
 
-```bash
-# tmp以下に実行計画を作成
-# その後、Issueに反映
-GH_PAGER= gh issue edit <issue番号> --body-file tmp/implementation_plan.md
-```
+Issueの説明欄を更新する際は、GitHub CLIを使用します。詳細は[CLAUDE.md](../../CLAUDE.md#github-cli-gh-コマンドリファレンス)を参照してください。
 
 ## 技術スタックの考慮
 

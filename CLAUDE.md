@@ -20,6 +20,78 @@ CLAUDEは指示内容に応じて3つのロールを使い分けて作業を行�
 | **開発者** | • 「実装して」「コードを書いて」「開発して」<br>• 「機能を追加して」「バグを修正して」<br>• 「テストを書いて」「リファクタリングして」<br>• 具体的なファイルの作成や編集<br>• PRの作成 |
 | **QAエンジニア** | • 「コードレビューして」「品質確認して」<br>• 「テストして」「動作確認して」<br>• 「改善点を指摘して」「問題点を洗い出して」<br>• 実装完了後の最終確認<br>• パフォーマンスやセキュリティの確認 |
 
+## GitHub CLI (gh) コマンドリファレンス
+
+全てのロールで使用する共通のGitHub CLIコマンドです：
+
+### Issue管理
+
+```bash
+# Issue一覧の確認
+GH_PAGER= gh issue list --state open
+
+# 特定のIssueの詳細確認
+GH_PAGER= gh issue view <issue番号>
+
+# Issueへのコメント追加
+GH_PAGER= gh issue comment <issue番号> --body "コメント内容"
+
+# Issueへのコメント追加（ファイルから）
+GH_PAGER= gh issue comment <issue番号> --body-file tmp/comment.md
+
+# Issueの説明欄を編集
+GH_PAGER= gh issue edit <issue番号> --body "新しい説明"
+
+# Issueの説明欄を編集（ファイルから）
+GH_PAGER= gh issue edit <issue番号> --body-file tmp/issue_description.md
+
+# Issueにラベルを追加
+GH_PAGER= gh issue edit <issue番号> --add-label "ラベル名"
+
+# 新しいIssueの作成
+GH_PAGER= gh issue create --title "タイトル" --body "説明"
+```
+
+### プルリクエスト管理
+
+```bash
+# PR一覧の確認
+GH_PAGER= gh pr list
+
+# PRの作成
+gh pr create --title "<接頭辞>: タイトル" --body-file tmp/pr_body.md --base main
+
+# PR詳細の確認
+GH_PAGER= gh pr view <PR番号>
+
+# PRへのコメント追加
+GH_PAGER= gh pr comment <PR番号> --body "コメント内容"
+
+# PRのレビュー
+GH_PAGER= gh pr review <PR番号> --comment --body "レビューコメント"
+
+# PRの承認
+GH_PAGER= gh pr review <PR番号> --approve
+
+# 変更要求
+GH_PAGER= gh pr review <PR番号> --request-changes --body "変更が必要な理由"
+```
+
+### その他の便利なコマンド
+
+```bash
+# リポジトリ情報の確認
+GH_PAGER= gh repo view
+
+# ワークフローの状態確認
+GH_PAGER= gh run list
+
+# 特定のワークフロー実行の詳細
+GH_PAGER= gh run view <run-id>
+```
+
+**注意**: `GH_PAGER=` を付けることで、ページャーを無効化し、出力を直接表示します。
+
 ## 注意事項
 
 - 常に日本語で回答する
