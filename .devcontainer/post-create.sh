@@ -1,54 +1,41 @@
 #!/bin/bash
 set -e
 
-# Install jq if not already installed
-if ! command -v jq &> /dev/null; then
-    echo "Installing jq..."
-    sudo apt-get update && sudo apt-get install -y jq
+# ベースディレクトリを取得
+BASE_DIR="$(dirname "$0")"
+
+# メッセージ出力関数を読み込む
+source "${BASE_DIR}/functions/print_message.sh"
+
+# 各フェーズのスクリプトを実行
+SCRIPTS_DIR="${BASE_DIR}/scripts"
+
+# フェーズ1: パッケージのインストール
+if [[ -f "${SCRIPTS_DIR}/phase1-packages.sh" ]]; then
+    chmod +x "${SCRIPTS_DIR}/phase1-packages.sh"
+    "${SCRIPTS_DIR}/phase1-packages.sh"
+else
+    print_error "フェーズ1のスクリプトが見つかりません: ${SCRIPTS_DIR}/phase1-packages.sh"
+    exit 1
 fi
 
-# Set Python environment for node-gyp
-export PYTHON=/usr/bin/python3
-export npm_config_python=/usr/bin/python3
+# フェーズ2: MCPサーバのセットアップ
+if [[ -f "${SCRIPTS_DIR}/phase2-mcp.sh" ]]; then
+    chmod +x "${SCRIPTS_DIR}/phase2-mcp.sh"
+    "${SCRIPTS_DIR}/phase2-mcp.sh"
+else
+    print_error "フェーズ2のスクリプトが見つかりません: ${SCRIPTS_DIR}/phase2-mcp.sh"
+    exit 1
+fi
 
-# Install ccmanager globally
-echo "Installing ccmanager..."
-npm install -g ccmanager
+# フェーズ3: Railsアプリケーションのセットアップ
+if [[ -f "${SCRIPTS_DIR}/phase3-rails.sh" ]]; then
+    chmod +x "${SCRIPTS_DIR}/phase3-rails.sh"
+    "${SCRIPTS_DIR}/phase3-rails.sh"
+else
+    print_error "フェーズ3のスクリプトが見つかりません: ${SCRIPTS_DIR}/phase3-rails.sh"
+    exit 1
+fi
 
-# setup Rails app
-bin/setup --skip-server
-
-# MCP設定ファイルのパス
-SETTINGS_FILE="/home/vscode/.vscode-server/data/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json"
-MCPS_DIR="$(dirname "$0")/mcps"
-
-# 設定ファイル用のディレクトリを作成
-mkdir -p "$(dirname "$SETTINGS_FILE")"
-
-# 空のJSONオブジェクトから開始
-echo '{"mcpServers": {}}' > "$SETTINGS_FILE"
-
-# MCP設定を収集
-echo "Installing MCP servers..."
-
-for mcp_script in "$MCPS_DIR"/*.sh; do
-    if [[ -f "$mcp_script" ]]; then
-        echo "Processing $(basename "$mcp_script")..."
-        
-        # スクリプトを実行可能にする
-        chmod +x "$mcp_script"
-        
-        # スクリプトを実行して設定を取得
-        config=$("$mcp_script" 2>&1 | grep -A 1000 '^{' | jq -c '.')
-        
-        if [[ -n "$config" && "$config" != "null" ]]; then
-            # jqを使って設定をマージ
-            jq '.mcpServers += '"$config" "$SETTINGS_FILE" > "${SETTINGS_FILE}.tmp" && mv "${SETTINGS_FILE}.tmp" "$SETTINGS_FILE"
-        fi
-    fi
-done
-
-# 最終的なJSONをフォーマット
-jq '.' "$SETTINGS_FILE" > "${SETTINGS_FILE}.tmp" && mv "${SETTINGS_FILE}.tmp" "$SETTINGS_FILE"
-
-echo "MCP servers installation completed."
+# 完了メッセージ
+print_completion "すべてのセットアップが正常に完了しました！"
