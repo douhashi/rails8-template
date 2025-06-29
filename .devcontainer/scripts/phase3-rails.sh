@@ -11,7 +11,10 @@ source "${BASE_DIR}/functions/print_message.sh"
 print_section "フェーズ 3: Railsアプリケーションのセットアップ"
 
 # ワークスペースのルートディレクトリに移動
-cd "${BASE_DIR}/../.."
+# BASE_DIR は .devcontainer/scripts なので、2つ上がプロジェクトルート
+PROJECT_ROOT="$(cd "${BASE_DIR}/../.." && pwd)"
+cd "${PROJECT_ROOT}"
+print_processing "作業ディレクトリ: ${PROJECT_ROOT}"
 
 # Railsの初期設定を実行
 print_subsection "Railsの初期設定を実行中..."
