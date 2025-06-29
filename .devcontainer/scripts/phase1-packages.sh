@@ -13,13 +13,9 @@ source "${BASE_DIR}/functions/install_npm.sh"
 print_section "フェーズ 1: 開発環境パッケージのインストール"
 
 # aptパッケージのインストール
-# 現時点では特に必要なものはないが、将来的に追加される可能性がある
-# 例:
-# print_subsection "システムパッケージのインストール"
-# install_apt_packages \
-#     "jq:JSONプロセッサ" \
-#     "curl:HTTPクライアント" \
-#     "htop:システムモニタ"
+print_subsection "システムパッケージのインストール"
+install_apt_packages \
+    "git-lfs:Git Large File Storage"
 
 # npmグローバルパッケージのインストール
 print_subsection "npmグローバルパッケージのインストール"
