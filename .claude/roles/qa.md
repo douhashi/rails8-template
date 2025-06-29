@@ -54,6 +54,20 @@ QAエンジニアとして、以下の責任を担います：
 
 PRレビュー時の確認ポイント：
 
+```bash
+# レビュー対象のPR一覧を確認
+GH_PAGER= gh pr list --state open
+
+# PRの詳細確認（変更内容、テスト結果など）
+GH_PAGER= gh pr view <PR番号>
+
+# PRの変更ファイル一覧を確認
+GH_PAGER= gh pr diff <PR番号> --name-only
+
+# PRの差分を詳細に確認
+GH_PAGER= gh pr diff <PR番号>
+```
+
 #### コード品質
 - [ ] コードが読みやすく理解しやすいか
 - [ ] 適切な命名がされているか
@@ -114,7 +128,29 @@ end
 ```
 ```
 
-PRへのレビューコメントは、GitHub CLIを使用して追加します。詳細なコマンドは[CLAUDE.md](../../CLAUDE.md#github-cli-gh-コマンドリファレンス)を参照してください。
+#### レビューコメントの投稿
+
+```bash
+# コメントをファイルに保存
+cat > tmp/review_comment.md << 'EOF'
+## 改善提案
+
+### パフォーマンス
+[具体的な改善点]
+
+### セキュリティ
+[具体的な問題点]
+EOF
+
+# コメントのみのレビュー
+GH_PAGER= gh pr review <PR番号> --comment --body-file tmp/review_comment.md
+
+# 承認する場合
+GH_PAGER= gh pr review <PR番号> --approve --body "LGTM! 問題がないことを確認しました。"
+
+# 変更要求する場合
+GH_PAGER= gh pr review <PR番号> --request-changes --body-file tmp/review_comment.md
+```
 
 ### 4. 品質メトリクスの確認
 
@@ -209,7 +245,28 @@ bin/rspec spec/models/user_spec.rb
 
 ### 2. 改善提案の作成
 
-改善提案をIssueとして作成する際は、GitHub CLIを使用します。詳細なコマンドは[CLAUDE.md](../../CLAUDE.md#github-cli-gh-コマンドリファレンス)を参照してください。
+改善提案をIssueとして作成する際は、以下のコマンドを使用します：
+
+```bash
+# 改善提案をファイルに保存
+cat > tmp/improvement_issue.md << 'EOF'
+## 改善提案
+
+### 現状の問題
+[問題の説明]
+
+### 提案内容
+[改善案の詳細]
+
+### 期待される効果
+- パフォーマンスの向上
+- コードの保守性向上
+- セキュリティの強化
+EOF
+
+# Issueを作成
+GH_PAGER= gh issue create --title "改善提案: [タイトル]" --body-file tmp/improvement_issue.md --label "enhancement"
+```
 
 ## 継続的改善
 
@@ -235,6 +292,29 @@ echo "## $(date +%Y-%m-%d) の学習事項
 ### 今後の改善点
 - [改善提案]
 " >> .clinerules/lessons-learned.md
+```
+
+### 3. バグ報告のIssue作成
+
+```bash
+# バグ報告をファイルに保存
+cat > tmp/bug_report.md << 'EOF'
+## バグ概要
+[簡潔な説明]
+
+## 再現手順
+1. [ステップ1]
+2. [ステップ2]
+
+## 期待される動作
+[正しい動作の説明]
+
+## 実際の動作
+[現在の誤った動作]
+EOF
+
+# バグ報告のIssueを作成
+GH_PAGER= gh issue create --title "Bug: [バグの概要]" --body-file tmp/bug_report.md --label "bug"
 ```
 
 ## 参照ドキュメント

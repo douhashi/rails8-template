@@ -25,7 +25,18 @@
 
 ### 1. Issue確認と要件理解
 
-GitHub CLIコマンドを使用してIssueを確認します。詳細なコマンドは[CLAUDE.md](../../CLAUDE.md#github-cli-gh-コマンドリファレンス)を参照してください。
+GitHub CLIコマンドを使用してIssueを確認します：
+
+```bash
+# Issue一覧の確認（オープンなIssueのみ）
+GH_PAGER= gh issue list --state open
+
+# 特定のIssueの詳細確認
+GH_PAGER= gh issue view <issue番号>
+
+# Issueのコメントも含めて確認
+GH_PAGER= gh issue view <issue番号> --comments
+```
 
 ### 2. 実行計画の作成
 
@@ -80,7 +91,26 @@ GitHub CLIコマンドを使用してIssueを確認します。詳細なコマ�
 
 ### 3. 実行計画の更新
 
-Issueの説明欄を更新する際は、GitHub CLIを使用します。詳細は[CLAUDE.md](../../CLAUDE.md#github-cli-gh-コマンドリファレンス)を参照してください。
+Issueの説明欄を更新する際は、以下のコマンドを使用します：
+
+```bash
+# 実行計画をファイルに保存
+cat > tmp/execution_plan.md << 'EOF'
+# 実行計画: [タイトル]
+
+## 前提知識
+...
+EOF
+
+# Issueの説明欄を更新
+GH_PAGER= gh issue edit <issue番号> --body-file tmp/execution_plan.md
+
+# Issueにコメントを追加（進捗報告など）
+GH_PAGER= gh issue comment <issue番号> --body "実行計画を作成しました。レビューをお願いします。"
+
+# 実行計画に関連するラベルを追加
+GH_PAGER= gh issue edit <issue番号> --add-label "planning"
+```
 
 ## 技術スタックの考慮
 

@@ -89,8 +89,32 @@ bin/rspec spec/system/
 # 変更をプッシュ
 git push origin <ブランチ名>
 
-# PRテンプレートを作成
-# tmp/pr_body.mdに以下の内容を記載
+# PRテンプレートをファイルに保存
+cat > tmp/pr_body.md << 'EOF'
+## 概要
+[実装した機能/修正の説明]
+
+## 関連するIssue
+fixes #<issue番号>
+
+## 変更内容
+- [主な変更点1]
+- [主な変更点2]
+
+## テスト結果
+- [ ] ユニットテスト実行済み
+- [ ] システムテスト実行済み
+- [ ] rubocop実行済み
+
+## スクリーンショット（UI変更がある場合）
+[該当する場合は画像を添付]
+
+## レビューポイント
+[レビュアーに特に確認してほしい点]
+EOF
+
+# PRを作成
+gh pr create --title "<接頭辞>: タイトル" --body-file tmp/pr_body.md --base main
 ```
 
 PRテンプレート：
@@ -117,7 +141,21 @@ fixes #<issue番号>
 [レビュアーに特に確認してほしい点]
 ```
 
-PR作成にはGitHub CLIを使用します。詳細なコマンドは[CLAUDE.md](../../CLAUDE.md#github-cli-gh-コマンドリファレンス)を参照してください。
+#### PR作成後のワークフロー
+
+```bash
+# PR一覧の確認
+GH_PAGER= gh pr list
+
+# 作成したPRの詳細確認
+GH_PAGER= gh pr view <PR番号>
+
+# レビューコメントへの対応後、コメント追加
+GH_PAGER= gh pr comment <PR番号> --body "レビューコメントに対応しました。再度ご確認お願いします。"
+
+# CIの状態確認
+GH_PAGER= gh pr checks <PR番号>
+```
 
 ## コーディングガイドライン
 
@@ -190,6 +228,21 @@ PR作成にはGitHub CLIを使用します。詳細なコマンドは[CLAUDE.md]
    - ユーザー入力の検証必須
    - SQLインジェクション対策
    - XSS対策
+
+## Issueの進捗報告
+
+実装作業中は定期的にIssueに進捗を報告します：
+
+```bash
+# 作業開始時
+GH_PAGER= gh issue comment <issue番号> --body "実装を開始しました。"
+
+# 進捗報告
+GH_PAGER= gh issue comment <issue番号> --body "主要な機能の実装が完了しました。現在テストを作成中です。"
+
+# 完了報告（PR作成時）
+GH_PAGER= gh issue comment <issue番号> --body "実装が完了し、PR #<PR番号> を作成しました。レビューをお願いします。"
+```
 
 ## 開発環境
 
