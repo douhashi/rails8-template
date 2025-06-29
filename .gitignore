@@ -46,3 +46,11 @@ node_modules
 config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
+
+# CLAUDE AI Assistant local files
+CLAUDE.local.md
+.claude/settings.local.json
+.claude/*.local.*
+.claude/roles/*.local.*
+.claude/cache/
+.claude/tmp/
