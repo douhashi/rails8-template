@@ -52,6 +52,8 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+  gem "rubocop-performance", require: false
+  gem "rubocop-rails", require: false
 
   gem "rspec-rails"
 end
@@ -72,6 +74,6 @@ end
 gem "dry-initializer", "~> 3.2"
 
 
-gem "factory_bot_rails", "~> 6.4"
+gem "factory_bot_rails", "~> 6.5"
 
 gem "pundit", "~> 2.5"

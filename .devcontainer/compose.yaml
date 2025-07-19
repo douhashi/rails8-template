@@ -1,10 +1,11 @@
-name: "app"
+name: "hirame"
 
 services:
   rails-app:
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
+    init: true
 
     volumes:
     - ../..:/workspaces:cached
@@ -30,3 +31,11 @@ services:
       retries: 5
     logging:
       driver: none
+  maildev:
+    image: maildev/maildev
+    ports:
+      - "1080:1080" # Web interface
+      - "1025:1025" # SMTP server
+    environment:
+      - MAILDEV_INCOMING_USER=user
+      - MAILDEV_INCOMING_PASS=secret
