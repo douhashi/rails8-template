@@ -16,8 +16,15 @@ PROJECT_ROOT="$(cd "${BASE_DIR}/.." && pwd)"
 cd "${PROJECT_ROOT}"
 print_processing "作業ディレクトリ: ${PROJECT_ROOT}"
 
+# if .envrc exists, source it
+if [[ -f ".envrc" ]]; then
+    print_processing "環境変数を読み込み中..."
+    source .envrc
+fi
+
 # Railsの初期設定を実行
 print_subsection "Railsの初期設定を実行中..."
+
 
 if [[ -f "bin/setup" ]]; then
     # bin/setupが存在する場合は実行
