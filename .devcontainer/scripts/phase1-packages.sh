@@ -22,7 +22,12 @@ print_subsection "npmグローバルパッケージのインストール"
 
 # 必要なnpmパッケージをインストール
 install_npm_globals \
+    "@anthropic-ai/claude-code:Claude Code" \
     "ccmanager:Claude Code Manager"
+
+# osobaのインストール
+print_subsection "osobaのインストール"
+curl -L https://github.com/douhashi/osoba/releases/latest/download/osoba_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/x86_64/; s/aarch64/arm64/').tar.gz | tar xz -C /tmp && sudo mv /tmp/osoba /usr/local/bin/
 
 # 将来的に追加されるパッケージの例:
 # install_npm_globals \
