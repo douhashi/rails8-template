@@ -1,41 +1,57 @@
 ---
-allowed-tools: Bash, Read, Grep, Glob, LS
-description: "実装計画の作成"
+allowed-tools: TodoWrite, TodoRead, Bash, Read, Grep, Glob, LS
+description: "Create implementation plan"
 ---
 
-# 計画
+# Plan
 
-引数で指定されたIssueの実装計画を作成します。
-実行計画とは、 **詳細な実装手順が記載されたGithubのコメントを作成すること** です。
+## Context 
 
-## ワークフロー
+- Specification Driven Development: @.claude/osoba/docs/spacification_driven_development.md
+- GitHub Issue number: $ARGUMENTS
 
-1. **Issue確認**
-   - 引数で指定されたIssue番号をghコマンドで確認
-   - `GH_PAGER= gh issue view <issue番号>` でIssue内容を取得
-   - 要件と背景を把握
+Based on the issue specified by the argument, execute Stage 2 (Design) and Stage 3 (Task List) of the Specification-Driven Development workflow.
 
-2. **現状分析**
-   - 関連するコードを調査
-   - 既存の実装パターンを確認
-   - 影響範囲を特定
+## Workflow
 
-3. **実装計画作成**
-   - 技術的なアプローチを決定
-   - 必要なテストケースを洗い出し
-   - 作業手順を具体化
+### 1. Check Issue
 
-4. **計画の記録**
-   - Issueにコメントとして実装計画を投稿
-   - `GH_PAGER= gh issue comment <issue番号> --body "実装計画: ..."`
+Run `GH_PAGER= gh issue view <issue number>` to review the issue and understand its background.
 
-5. **ラベル更新**
-   - `GH_PAGER= gh issue edit <issue番号> --remove-label "status:planning" --add-label "status:ready"` でラベルを付与
+**Note**: Do NOT use `--comments` because issue content may become unreadable.
 
-## 基本ルール
+### 2. Stage 2: Design
 
-- コードベースを書き換えてはいけません。
-- TDDに適した計画を立てる
-- 既存のアーキテクチャに沿った設計
-- テスト可能な実装方針を選択
-- 段階的な実装が可能な計画にする
+Execute the `/osoba:design` command to create a technical design document based on the requirements.
+
+### 3. Stage 3: Task List
+
+Execute the `/osoba:tasks` command to break down the design into implementable tasks.
+
+### 4. Check Design and Task List
+
+- Verify that the Stage 2 output (`.tmp/design.md`) matches the original requirements  
+- Verify that the Stage 3 output (`.tmp/tasks.md`) matches the original requirements  
+- Ensure that both Stage 2 and Stage 3 outputs are posted as comments in the GitHub Issue  
+
+Use:  
+Check issue comment: `GH_PAGER= gh issue view <issue number> --comments`
+Comment design: `GH_PAGER= gh issue comment <issue number> --body-file .tmp/design.md`
+Comment tasks: `GH_PAGER= gh issue comment <issue number> --body-file .tmp/tasks.md`
+
+Proceed only if all three checks pass.
+
+### 5. Update Issue Label
+
+Run:
+`GH_PAGER= gh issue edit <issue number> --remove-label "status:planning" --add-label "status:ready"`
+
+## Important Notes
+
+- Do NOT modify the codebase at this stage
+- Each stage output must be detailed and actionable
+- Focus on clarity and completeness in documentation
+- Consider edge cases and error scenarios during each stage
+
+think hard
+

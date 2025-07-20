@@ -1,40 +1,79 @@
 ---
-allowed-tools: Bash, Read, Write, Edit, MultiEdit, Grep, Glob, LS
-description: "TDDによる実装作業"
+allowed-tools: TodoRead, TodoWrite, Bash, Read, Write, Edit, MultiEdit, Grep, Glob, LS
+description: "Implementation work using TDD"
 ---
 
-# 実装
+# Implementation
 
-開発者として、引数で指定されたIssueをTDD（テスト駆動開発）で実装する
+As a developer, your task is to implement the issue specified by the argument using Test-Driven Development (TDD).
 
-## ワークフロー
+## Top-Level Rules
 
-1. **Issue確認**
-   - 引数で指定されたIssue番号をghコマンドで確認
-   - `GH_PAGER= gh issue view <issue番号>` でIssue内容を取得
-   - 実装内容と受け入れ条件を把握
+- Follow a test-first approach
+- Adhere to existing coding standards
+- Ensure all tests pass before proceeding
+- Consider security in all implementations
 
-2. **TDDによる実装**
-   - テストを先に作成
-   - テストが失敗することを確認
-   - 最小限の実装でテストをパス
-   - リファクタリング
+## Workflow
 
-3. **テスト実行**
-   - 実装部分のテストを実行
-   - システム全体のフルテストを実行
+1. **Review the Issue Requirements**
+   - Run `GH_PAGER= gh issue view <issue number>` to view the issue
+   - Understand the required functionality
 
-4. **PR作成**
-   - 全テストがパスしたらPRを作成
+2. **Check Design and Task List**
+   - Run `GH_PAGER= gh issue view <issue number> --comments` to view comments
+   - Check for design documents and task breakdown
 
-5. **完了報告**
-   - Issueにコメントで完了を報告
-   - `GH_PAGER= gh issue comment <issue番号> --body "実装が完了しました。PRを作成しました: #<PR番号>"`
-   - `GH_PAGER= gh issue edit <issue番号>  --remove-label "status:implementing" --add-label "status:review-requested"` でラベルを付与/削除
+3. **Update ToDo List**
+   - Use TodoWrite to expand the task list into actionable items
 
-## 基本ルール
+4. **TDD-Based Implementation**
+   - For each task, repeat the following TDD cycle:
+     - Write a test first
+     - Confirm that the test fails
+     - Implement the minimum code required to pass the test
+     - Confirm the test passes
+     - Commit the change
+     - Refactor the code
+     - Confirm tests still pass
+     - Commit / push changes
+   - **Important: Do NOT push if the tests are failing**
+   - **Important: If the test still fails after 5 cycles, report the situation and wait for further instructions**
 
-- テストファーストで実装を進める
-- 既存のコーディング規約に従う
-- 全てのテストがパスすることを確認
-- セキュリティを考慮した実装を行う
+5. **Run Tests**
+   - Run unit tests for the implemented part
+   - Run full system tests
+
+6. **Create Pull Request**
+   - Create a pull request only after all tests pass
+   - **Important: Do NOT create a PR unless all tests pass**
+   - **Important: Try to fix any failing tests before proceeding**
+   - **Important: If tests still fail after 5 cycles, report and await instructions**
+   - **Important: Never skip or ignore failing tests, even temporarily**
+
+7. **Completion Report**
+   - First, create `.tmp/completion_report.md` using the template below.
+   - Then, post the contents of `.tmp/completion_report.md` to the issue as a comment using:
+     - `GH_PAGER= gh issue comment <issue number> --body-file .tmp/completion_report.md`
+   - Update labels:
+     - `GH_PAGER= gh issue edit <issue number> --remove-label "status:implementing" --add-label "status:review-requested"`
+
+   #### ✅ `.tmp/completion_report.md` Template (Japanese)
+
+   ```markdown
+   ## 実装完了
+
+   以下のIssueについて、TDDに基づき実装を完了しました。
+
+   - Issue: #<ISSUE番号>
+   - 対応内容:
+     - [対応した主な機能や修正点を簡潔に列挙]
+   - 実装方式: テスト駆動開発（TDD）に準拠
+   - テスト状況:
+     - 単体テスト: ✅ パス
+     - 結合テスト: ✅ パス
+     - フルテスト: ✅ パス
+   - 関連PR: #<PR番号>
+
+   ご確認のほどよろしくお願いいたします。
+   ```
