@@ -1,28 +1,57 @@
-# CLAUDE
+# Guideline
 
-CLAUDEは指示内容に応じて3つのロールを使い分けて作業を行います。
+## Top-Level Rules
 
-## ロール
-
-| ロール | 説明 | 参照ドキュメント |
-|--------|------|-----------------|
-| **システム設計者**<br>(Architect) | 要件分析と実行計画の作成を担当します。<br>プロジェクトの設計フェーズで活動し、技術選定や実装方針の決定を行います。 | [`.claude/roles/architect.md`](.claude/roles/architect.md) |
-| **開発者**<br>(Developer) | 実装作業とテストの作成を担当します。<br>設計に基づいてコードを書き、機能を実現します。 | [`.claude/roles/developer.md`](.claude/roles/developer.md) |
-| **QAエンジニア**<br>(QA) | 品質保証とコードレビューを担当します。<br>実装の品質確認と改善提案を行います。 | [`.claude/roles/qa.md`](.claude/roles/qa.md) |
-
-## ロールの決定方法
-
-以下の指示内容に基づいて、適切なロールを自動的に選択します：
-
-| ロール | 選択する指示の例 |
-|--------|-----------------|
-| **システム設計者** | • 「計画を作成して」「計画を立てて」「設計して」<br>• 「要件を整理して」「要件定義して」<br>• 「実装方針を考えて」「アーキテクチャを検討して」<br>• 新しいIssueの内容確認と実行計画作成<br>• 技術選定や実現可能性の検討 |
-| **開発者** | • 「実装して」「コードを書いて」「開発して」<br>• 「機能を追加して」「バグを修正して」<br>• 「テストを書いて」「リファクタリングして」<br>• 具体的なファイルの作成や編集<br>• PRの作成 |
-| **QAエンジニア** | • 「コードレビューして」「品質確認して」<br>• 「テストして」「動作確認して」<br>• 「改善点を指摘して」「問題点を洗い出して」<br>• 実装完了後の最終確認<br>• パフォーマンスやセキュリティの確認 |
+- Run independent processes concurrently, not sequentially.  
+- Think only in English; respond only in Japanese.  
+- Use **Contex7 MCP** to check library usage.  
+- Save temp design notes as `.tmp` in Markdown.  
+- After **Write/Edit**, always verify with **Read**, even if system says “(no content)”.  
+- Be critical, not obedient—but stay respectful.
 
 
-## 注意事項
+## Development Style - Specification-Driven Development
 
-- 常に日本語で回答する
-- 選択したロールのプロフェッショナルとして、最大限の尽力をする
-- 複数のロールが必要な場合は、段階的に切り替えて対応する
+### Overview
+
+When receiving development tasks, please follow the 4-stage workflow below. This ensures requirement clarification, structured design, and efficient implementation.
+
+### 4-Stage Workflow
+
+#### Stage 1: Requirements
+
+- Analyze user requests and convert them into clear functional requirements
+- Document requirements in `.tmp/requirements.md`
+- Use `/osoba:requirements` command for detailed template
+
+#### Stage 2: Design
+
+- Create technical design based on requirements
+- Document design in `.tmp/design.md`
+- Use `/osoba:design {Issue number}` command for detailed template
+
+#### Stage 3: Task List
+
+- Break down design into implementable units
+- Document in `.tmp/tasks.md`
+- Use `/osoba:tasks` command for detailed template
+- Manage major tasks with TodoWrite tool
+
+#### Stage 4: Implementation
+
+- Implement according to task list
+- Use `/osoba:implement {Issue number}` command for detailed workflow
+- For each task:
+  - Update task to in_progress using TodoWrite
+  - Execute implementation and testing
+  - Run lint and typecheck
+  - Update task to completed using TodoWrite
+
+### Workflow Commands
+
+- `/osoba:requirements` - Execute Stage 1: Requirements only
+- `/osoba:design` - Execute Stage 2: Design only (requires requirements)
+- `/osoba:tasks` - Execute Stage 3: Task breakdown only (requires design)
+- `/osoba:implement` - Execute Stage 4: Implement (requires task list)
+- `/osoba:plan` - Execute Stage 1 and 2: (requires requirements)
+- `/osoba:spec` - Start the complete specification-driven development workflow
