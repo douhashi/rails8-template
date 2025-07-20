@@ -42,7 +42,7 @@ Example:
 The AI system does **not directly reference documents**. Instead, it recognizes document availability via `CLAUDE.md`, where paths are listed using the format:
 
 ```
-@docs/development/guideline.md
+@docs/development/INDEX.md
 ```
 
 This tells the AI:  
