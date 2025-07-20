@@ -1,5 +1,5 @@
 {
-  "name": "hirame",
+  "name": "app",
   "dockerComposeFile": "compose.yaml",
   "service": "rails-app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",

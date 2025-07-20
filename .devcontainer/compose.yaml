@@ -1,4 +1,4 @@
-name: "hirame"
+name: "app"
 
 services:
   rails-app:
