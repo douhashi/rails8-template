@@ -7,6 +7,7 @@ description: "Create implementation plan"
 
 ## Context 
 
+- Specification Driven Development: @.claude/osoba/docs/spacification_driven_development.md
 - GitHub Issue number: $ARGUMENTS
 
 Based on the issue specified by the argument, execute Stage 2 (Design) and Stage 3 (Task List) of the Specification-Driven Development workflow.
@@ -27,7 +28,20 @@ Execute the `/osoba:design` command to create a technical design document based 
 
 Execute the `/osoba:tasks` command to break down the design into implementable tasks.
 
-### 4. Update Issue Label
+### 4. Check Design and Task List
+
+- Verify that the Stage 2 output (`.tmp/design.md`) matches the original requirements  
+- Verify that the Stage 3 output (`.tmp/tasks.md`) matches the original requirements  
+- Ensure that both Stage 2 and Stage 3 outputs are posted as comments in the GitHub Issue  
+
+Use:  
+Check issue comment: `GH_PAGER= gh issue view <issue number> --comments`
+Comment design: `GH_PAGER= gh issue comment <issue number> --body-file .tmp/design.md`
+Comment tasks: `GH_PAGER= gh issue comment <issue number> --body-file .tmp/tasks.md`
+
+Proceed only if all three checks pass.
+
+### 5. Update Issue Label
 
 Run:
 `GH_PAGER= gh issue edit <issue number> --remove-label "status:planning" --add-label "status:ready"`

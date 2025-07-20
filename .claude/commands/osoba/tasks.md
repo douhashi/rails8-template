@@ -3,8 +3,13 @@ allowed-tools: TodoWrite, TodoRead, Read, Write, MultiEdit
 description: Break down design into implementable tasks (Stage 3 of Spec-Driven Development)
 ---
 
+# Task List
+
+Create a task list based on the design and post it as a comment in the GitHub Issue.
+
 ## Context
 
+- Specification Driven Development: @.claude/osoba/docs/spacification_driven_development.md
 - Requirements: from context
 - Design document: @.tmp/design.md
 
@@ -123,9 +128,12 @@ Add a section at the end of tasks.md:
 4. 問題発生時は速やかに報告してください
 ```
 
-### 5. Post comment to issue
+### 5. Post comment to Github issue
 
-Post the contents of `.tmp/tasks.md` as a comment on the related Issue.
+Post the contents of `.tmp/design.md` as a comment on the related Github issue.
+
+`GH_PAGER= gh issue comment <issue number> --body-file .tmp/tasks.md`
+
 
 ## Important Notes
 

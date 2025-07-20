@@ -3,8 +3,13 @@ allowed-tools: TodoWrite, TodoRead, Read, Write, MultiEdit
 description: Create detailed design specification based on requirements (Stage 2 of Spec-Driven Development)
 ---
 
+# Design
+
+Analyze the requirements, create a design based on them, and post the design as a comment in the GitHub Issue.
+
 ## Context
 
+- Specification-Driven Development: @.claude/osoba/docs/spacification_driven_development.md
 - GitHub issue number: $ARGUMENTS
 
 ## Your task
@@ -147,9 +152,11 @@ Create `.tmp/design.md` with the following sections:
 ### 4. Update TODO
 Use TodoWrite to add "詳細設計の完了とレビュー" as a task
 
-### 5. Post comment to issue
+### 5. Post comment to Github issue
 
-Post the contents of `.tmp/design.md` as a comment on the related Issue.
+Post the contents of `.tmp/design.md` as a comment on the related Github issue.
+
+`GH_PAGER= gh issue comment <issue number> --body-file .tmp/design.md`
 
 ## Important Notes
 - Design should be implementable and testable

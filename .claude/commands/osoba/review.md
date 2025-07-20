@@ -9,6 +9,7 @@ As a QA engineer, your task is to review the Pull Request (PR) associated with t
 
 ## Context
 
+- Specification Driven Development: @.claude/osoba/docs/spacification_driven_development.md
 - Target Issue number: $ARGUMENTS
 
 

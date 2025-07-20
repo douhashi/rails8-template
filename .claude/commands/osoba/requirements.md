@@ -5,6 +5,7 @@ description: Create requirements specification for the given task (Stage 1 of Sp
 
 ## Context
 
+- Specification Driven Development: @.claude/osoba/docs/spacification_driven_development.md
 - Task description: $ARGUMENTS
 
 ```markdown
@@ -110,6 +111,16 @@ Show the created requirements document and ask for:
 ### 6. Post comment to issue
 
 Post the contents of `.tmp/requirements.md` as Github Issue.
+
+#### example command
+
+```
+gh issue create --title "feat: [機能名]" --body-file .tmp/requirements.md --label "status:needs-plan"
+```
+
+Note:
+- Use "Conventional Commits" style
+- Use "status:needs-plan" label (Do NOT change label name)
 
 ## Important Notes
 
