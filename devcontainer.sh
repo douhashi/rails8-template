@@ -1,15 +1,22 @@
 #!/bin/bash
 
+# Sync Ruby version from .tool-versions to .devcontainer/.env
+sync_ruby_version() {
+    local script_path=".devcontainer/sync-ruby-version.sh"
+    if [ -f "$script_path" ]; then
+        echo "Syncing Ruby version from .tool-versions..."
+        bash "$script_path"
+    else
+        echo "Warning: $script_path not found, skipping Ruby version sync"
+    fi
+}
+
 # devcontainerを起動する関数
 up_devcontainer() {
     local additional_flags="$1"
     
-    # Get the Neovim config path using headless nvim
-    nvim_config_path=$(nvim --headless -c 'lua io.stdout:write(vim.fn.stdpath("config"))' -c 'q' --clean)
-    
-    # Resolve symlink for the config path
-    nvim_resolved_config_path=$(readlink -f "$nvim_config_path")
-    echo "Resolved nvim config path: $nvim_resolved_config_path"
+    # Sync Ruby version before starting devcontainer
+    sync_ruby_version
     
     # Get the tmux config path
     tmux_config_path=~/.config/tmux
@@ -17,22 +24,13 @@ up_devcontainer() {
     echo "Resolved config path: $tmux_resolved_config_path"
     
     # Construct the command to run the devcontainer
-    # TODO: resolve config dir
     command="devcontainer up $additional_flags"
     
     # Add mount options
-    command+=" --mount type=bind,source=$nvim_resolved_config_path,target=/home/vscode/.config/container-nvim"
     command+=" --mount type=bind,source=$tmux_resolved_config_path,target=/home/vscode/.config/tmux"
-    
-    # Add SSH agent socket mount if it exists
-    if [ -S "/tmp/ssh-agent.sock" ]; then
-        echo "SSH agent socket found at /tmp/ssh-agent.sock"
-        command+=" --mount type=bind,source=/tmp/ssh-agent.sock,target=/tmp/ssh-agent.sock"
-    fi
     
     # Add additional features
     command+=" --additional-features='{ \
-            \"ghcr.io/duduribeiro/devcontainer-features/neovim:1\": { \"version\": \"stable\" }, \
             \"ghcr.io/duduribeiro/devcontainer-features/tmux:1\": {} \
         }'"
     
@@ -45,13 +43,7 @@ up_devcontainer() {
 # devcontainerに接続する関数
 exec_devcontainer() {
     # Prepare exec command with environment variables
-    exec_command="devcontainer exec --remote-env NVIM_APPNAME=container-nvim"
-    
-    # Add SSH_AUTH_SOCK if the socket was mounted
-    if [ -S "/tmp/ssh-agent.sock" ]; then
-        exec_command+=" --remote-env SSH_AUTH_SOCK=/tmp/ssh-agent.sock"
-    fi
-    
+    exec_command="devcontainer exec"
     exec_command+=" --workspace-folder . /bin/bash"
     
     eval "$exec_command"
