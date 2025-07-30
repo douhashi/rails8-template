@@ -1,14 +1,17 @@
 {
-  "name": "app",
+  "name": "${localWorkspaceFolderBaseName}",
   "dockerComposeFile": "compose.yaml",
-  "service": "rails-app",
+  "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {},
     "ghcr.io/rails/devcontainer/features/activestorage": {},
-    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
     "ghcr.io/devcontainers/features/node:1": {},
-    "ghcr.io/devcontainers/features/python:1": {}
+    "ghcr.io/devcontainers/features/python:1": {},
+    "ghcr.io/devcontainers/features/aws-cli:1.1.2": {},
+    "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest"
+    }
   },
   "containerEnv": {
     "KAMAL_REGISTRY_USERNAME": "$KAMAL_REGISTRY_USERNAME",
@@ -21,13 +24,6 @@
     5100,
     3036
   ],
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "saoudrizwan.claude-dev"
-      ]
-    }
-  },
   "mounts": [
     {
       "source": "${localEnv:HOME}/.claude",
@@ -44,6 +40,18 @@
     {
       "source": "${localEnv:HOME}/.config/gh",
       "target": "/home/vscode/.config/gh",
+      "type": "bind",
+      "consistency": "cached"
+    },
+    {
+      "source": "${localEnv:HOME}/.ssh",
+      "target": "/home/vscode/.ssh",
+      "type": "bind",
+      "consistency": "cached"
+    },
+    {
+      "source": "${localEnv:HOME}/.aws",
+      "target": "/home/vscode/.aws",
       "type": "bind",
       "consistency": "cached"
     }

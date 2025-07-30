@@ -1,10 +1,17 @@
-name: "app"
+x-logging-minimal: &logging-minimal
+  logging:
+    driver: json-file
+    options:
+      max-size: 1m
+      max-file: 1
 
 services:
-  rails-app:
+  app:
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
+      args:
+        RUBY_VERSION: $RUBY_VERSION
     init: true
 
     volumes:
@@ -21,6 +28,7 @@ services:
     ports: # for devcontainer/cli 
       - 5100:5100
       - 3036:3036
+    <<: *logging-minimal
 
   selenium:
     image: selenium/standalone-chrome
@@ -29,13 +37,4 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
-    logging:
-      driver: none
-  maildev:
-    image: maildev/maildev
-    ports:
-      - "1080:1080" # Web interface
-      - "1025:1025" # SMTP server
-    environment:
-      - MAILDEV_INCOMING_USER=user
-      - MAILDEV_INCOMING_PASS=secret
+    <<: *logging-minimal
