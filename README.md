@@ -16,17 +16,14 @@ A modern Rails 8 application template with best practices and essential configur
 ```bash
 # Install dependencies
 bundle install
+npm install
 
 # Setup database
-rails db:create db:migrate
+bin/rails db:setup
 
-# Start development server
-bin/dev
+# Start development server (runs on port 5100)
+bin/server
 ```
-
-## Development
-
-See `docs/development/` for development guidelines and coding standards.
 
 ## Development with Dev Container
 
