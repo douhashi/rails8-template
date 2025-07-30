@@ -1,24 +1,64 @@
-# README
+# Rails 8 Template
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A modern Rails 8 application template with best practices and essential configurations.
 
-Things you may want to cover:
+## Features
 
-* Ruby version
+- Rails 8 with Propshaft
+- ViewComponent for UI components
+- Lookbook for component development
+- Solid Queue for background jobs
+- Foreman for process management
+- Structured documentation system
 
-* System dependencies
+## Getting Started
 
-* Configuration
+```bash
+# Install dependencies
+bundle install
 
-* Database creation
+# Setup database
+rails db:create db:migrate
 
-* Database initialization
+# Start development server
+bin/dev
+```
 
-* How to run the test suite
+## Development
 
-* Services (job queues, cache servers, search engines, etc.)
+See `docs/development/` for development guidelines and coding standards.
 
-* Deployment instructions
+## Development with Dev Container
 
-* ...
+This project includes Dev Container configuration for consistent development environments.
+
+### Using VS Code
+
+1. Install the "Dev Containers" extension in VS Code
+2. Open the project folder in VS Code
+3. Press `F1` and select "Dev Containers: Reopen in Container"
+4. VS Code will build and start the container automatically
+
+### Using Dev Container CLI
+
+For command-line usage, use the provided scripts:
+
+```bash
+# Rebuild the container (useful after configuration changes)
+.devcontainer/bin/rebuild
+
+# Start the dev container
+.devcontainer/bin/up
+
+# Stop the dev container
+.devcontainer/bin/down
+```
+
+These scripts wrap the devcontainer CLI commands for easier management of the development environment.
+
+## Documentation
+
+Project documentation is organized under `docs/`:
+- `business/` - Business documents
+- `development/` - Development guides
+- `operations/` - Operational documents
