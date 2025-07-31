@@ -52,8 +52,8 @@ Be sure to run the version *without* `--comments` first to understand the requir
 ### 5. Post Review Result
 
 - Post the review result using:
-  `GH_PAGER= gh pr comment <PR number> --body "$(cat .tmp/review_result.md)"`
-- Use the following template for `.tmp/review_result.md`:
+  `GH_PAGER= gh pr comment <PR number> --body "$(cat ./.tmp/review-result-<issue number>.md)"`
+- Use the following template for `./.tmp/review-result-<issue number>.md`:
 
 ```markdown
 ## Review Result
@@ -82,64 +82,3 @@ Be sure to run the version *without* `--comments` first to understand the requir
 - Check for any potential security issues
 - All tests and CI checks must pass
 - Review comments must be clear and constructive
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----
-allowed-tools: Bash, Read, Write, Edit, MultiEdit, Grep, Glob, LS
-description: "PRのレビューとマージ作業"
----
-
-# レビュー
-
-品質管理エンジニアとして引数で指定されたPRをレビューし、レビュー結果をIssueにコメントする
-
-## ワークフロー
-
-1. **Issue確認**
-   - 引数で指定されたIssue番号をghコマンドで確認
-   - `GH_PAGER= gh issue view <issue番号>` でIssue内容を取得
-   - Issueに対応するPR番号を特定
-
-1. **PR確認**
-   - PR番号をghコマンドで確認
-   - `GH_PAGER= gh pr view <PR番号>` でPR内容を取得
-   - 変更内容と実装目的を把握
-
-2. **コードレビュー**
-   - `GH_PAGER= gh pr diff <PR番号>` で差分を確認
-   - コーディング規約の遵守を確認
-   - セキュリティリスクがないか確認
-   - テストの適切性を確認
-
-3. **CI確認**
-   - `GH_PAGER= gh pr checks <PR番号>` でCI結果を確認
-   - 全てのチェックがパスしていることを確認
-   - CIが実行中の場合は、少し待ってから再度確認すること
-
-4. **レビュー結果をコメント**
-   - レビュー結果をPRにコメント
-   - `GH_PAGER= gh pr comment <PR番号> --body "レビュー結果..."`
-   - コメント内容：
-     - 判定：✅ マージOK / ⚠️ 修正が必要
-     - 良い点：実装の優れている箇所
-     - 修正提案：改善が必要な箇所（ある場合）
-
-
-## 基本ルール
-
-- コーディング規約の遵守を確認
-- テストが全てパスしていることを確認
-- セキュリティリスクがないことを確認
-- 実装内容がIssueの要件を満たしていることを確認
