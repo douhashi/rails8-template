@@ -103,7 +103,7 @@ Refer to the following index for any necessary documentation:
      ```bash
      gh pr create \\
        --title "feat: Add favorite feature for products (#123)" \\
-       --body-file ./tmp/pull-request-123.md \\
+       --body-file ./.tmp/pull-request-123.md \\
        --base main
      ```
 

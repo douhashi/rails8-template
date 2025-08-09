@@ -132,6 +132,7 @@ Please refer to the relevant documents via the following index files (Document S
   - [対策案]
 
 ## タイムライン
+- 実装期間の目安: [開始日] 〜 [終了日]
 - 各ステップの予想時間（単位: 時間）:
   - ステップ1: [X時間]
   - ステップ2: [X時間]
@@ -203,6 +204,7 @@ Please refer to the relevant documents via the following index files (Document S
   - 対策：非同期APIのレスポンスに基づいて状態を確定させる
 
 ## タイムライン
+- 実装期間の目安: 2025-07-22 〜 2025-07-24
 - 各ステップの予想時間（単位: 時間）:
   - ステップ1: 1.5h
   - ステップ2: 2.0h
