@@ -1,4 +1,5 @@
 # Development Documents
 
-- `guideline.md`: コンポーネント設計ガイド - ViewComponentを使用したUI設計の指針
-- `coding-rule.md`: コーディング規約 - Ruby/Rails開発における標準とベストプラクティス
+- `component-guidelines.md`: Component Design Guidelines - UI design principles using ViewComponent
+- `coding-standards.md`: Ruby on Rails Coding Standards - Standards and best practices for Ruby/Rails development
+- `testing-strategy.md`: Testing Strategy - Comprehensive testing approach and guidelines

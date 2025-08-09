@@ -14,9 +14,11 @@ In this phase, you will modify or add code based on the implementation plan, run
 
 ### Documents
 
-Refer to the following index for any necessary documentation:
+Refer to the following documentation:
 
-- Development: `@docs/development/INDEX.md`
+- **Coding Standards**: @docs/development/coding-standards.md
+- **Testing Strategy**: @docs/development/testing-strategy.md
+- **Other Development Documents**: @docs/development/INDEX.md
 
 ### Expected state of the Issue
 
