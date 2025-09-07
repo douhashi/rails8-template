@@ -34,7 +34,14 @@ Be sure to run the version *without* `--comments` first to understand the requir
 - Run `GH_PAGER= gh pr view <PR number>` to review the purpose, changes, and description of the PR
 - Ensure the implementation satisfies the original requirements
 
-### 3. Review Code Changes
+### 3. Check for Conflicts
+
+- Run `GH_PAGER= gh pr view <PR number> --json mergeable,mergeStateStatus` to check merge status
+- If conflicts exist (mergeable=false or mergeStateStatus=CONFLICTING):
+  - The PR needs to be rebased against the base branch
+  - Include this in the review feedback
+
+### 4. Review Code Changes
 
 - Run `GH_PAGER= gh pr diff <PR number>` to check the code diff
 - Evaluate the changes with the following criteria:
@@ -43,13 +50,13 @@ Be sure to run the version *without* `--comments` first to understand the requir
   - Security concerns and potential vulnerabilities
   - Unnecessary diffs (e.g., debug code, commented-out lines)
 
-### 4. Check CI Results
+### 5. Check CI Results
 
 - Run `GH_PAGER= gh pr checks <PR number>` to verify CI status
   - All checks must ✅ pass
   - If checks are still running, wait and retry until completed
 
-### 5. Post Review Result
+### 6. Post Review Result
 
 - Post the review result using:
   `GH_PAGER= gh pr comment <PR number> --body "$(cat ./.tmp/review-result-<issue number>.md)"`
@@ -65,6 +72,10 @@ Be sure to run the version *without* `--comments` first to understand the requir
 - [ ] Approved (LGTM)
 - [ ] Requires changes
 
+### 🔄 Merge Status
+- [ ] No conflicts - ready to merge
+- [ ] Has conflicts - needs rebase
+
 ### 👍 Positive Notes
 - [List of strengths in the implementation]
 
@@ -74,6 +85,24 @@ Be sure to run the version *without* `--comments` first to understand the requir
 ### 🔍 Additional Notes
 - [Optional remarks if any]
 ```
+
+### 7. Update Labels
+
+After posting the review result, update the labels based on the verdict:
+
+#### If Approved (LGTM):
+1. Keep `status:reviewing` label on the Issue (Issue lifecycle ends here)
+2. Remove `status:requires-changes` label from the Pull Request (if exists) and add `status:lgtm` label:
+   ```bash
+   gh pr edit <PR number> --remove-label "status:requires-changes" --add-label "status:lgtm"
+   ```
+
+#### If Requires Changes:
+1. Keep `status:reviewing` label on the Issue (Issue remains in review state)
+2. Add `status:requires-changes` label to the Pull Request:
+   ```bash
+   gh pr edit <PR number> --add-label "status:requires-changes"
+   ```
 
 ## Basic Rules
 

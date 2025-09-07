@@ -16,7 +16,9 @@ Your task is to create an Implementation Plan (Plan) for a given GitHub Issue, i
 
 Please refer to the relevant documents via the following index files (Document System format):
 
-- Development: `@docs/development/INDEX.md`
+- **Coding Standards**: @docs/development/coding-standards.md
+- **Testing Strategy**: @docs/development/testing-strategy.md
+- **Other Development Documents**: @docs/development/INDEX.md
 
 ### Expected State of the Issue
 
