@@ -27,14 +27,11 @@ bin/server
 
 ## Development with Dev Container
 
-This project includes Dev Container configuration for consistent development environments.
+(douhashi/devcontainer-rails)[https://github.com/douhashi/devcontainer-rails]
 
-### Using VS Code
-
-1. Install the "Dev Containers" extension in VS Code
-2. Open the project folder in VS Code
-3. Press `F1` and select "Dev Containers: Reopen in Container"
-4. VS Code will build and start the container automatically
+```
+git subtree add --prefix=.devcontainer --squash git@github.com:douhashi/devcontainer-rails.git main
+```
 
 ### Using Dev Container CLI
 
